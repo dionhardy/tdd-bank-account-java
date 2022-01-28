@@ -3,7 +3,7 @@ package org.xpdojo.bank;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class AccountTest {
 
@@ -26,4 +26,14 @@ public class AccountTest {
         theAccount.deposit(20);
         assertThat(theAccount.balance()).isEqualTo(30);
     }
+
+
+    @Test
+    public void account_withdrawSingleAmount() {
+        Account theAccount = Account.emptyAccount();
+        theAccount.deposit(10);
+        theAccount.withdraw(5);
+        assertThat(theAccount.balance()).isEqualTo(5);
+    }
+
 }

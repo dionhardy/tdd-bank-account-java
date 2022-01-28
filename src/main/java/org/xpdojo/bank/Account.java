@@ -11,7 +11,11 @@ public class Account {
         return balance;
     }
 
-    public void deposit(int i) {
-        balance+=i;
+    public void deposit(int amount) {
+        balance+=amount;
+    }
+
+    public void withdraw(int amount) {
+        balance-=amount;
     }
 }
