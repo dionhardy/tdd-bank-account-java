@@ -36,4 +36,12 @@ public class AccountTest {
         assertThat(theAccount.balance()).isEqualTo(5);
     }
 
+    @Test
+    public void account_withdrawMultipleAmount() {
+        Account theAccount = Account.emptyAccount();
+        theAccount.deposit(10);
+        theAccount.withdraw(5);
+        theAccount.withdraw(3);
+        assertThat(theAccount.balance()).isEqualTo(2);
+    }
 }
