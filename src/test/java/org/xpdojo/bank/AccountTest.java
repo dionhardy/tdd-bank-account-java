@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AccountTest {
 
@@ -25,6 +26,12 @@ public class AccountTest {
         theAccount.deposit(10);
         theAccount.deposit(20);
         assertThat(theAccount.balance()).isEqualTo(30);
+    }
+
+    @Test()
+    public void account_addZeroDeposit() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().deposit(0));
+        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
     }
 
 

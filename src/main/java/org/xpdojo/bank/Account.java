@@ -11,7 +11,8 @@ public class Account {
         return balance;
     }
 
-    public void deposit(int amount) {
+    public void deposit(int amount) throws IllegalArgumentException {
+        if(amount<=0) throw new IllegalArgumentException("amount must be positive");
         balance+=amount;
     }
 
