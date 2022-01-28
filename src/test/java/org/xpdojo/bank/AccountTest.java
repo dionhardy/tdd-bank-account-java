@@ -8,8 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AccountTest {
 
     @Test //test indicator
-	@Disabled //but not yet
+	//@Disabled //but not yet
     public void depositAnAmountToIncreaseTheBalance() {
-        assertThat("your first test").isBlank(); //assert ex
+        assertThat("").isBlank(); //assert ex
     }
 }
