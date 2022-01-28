@@ -68,6 +68,7 @@ public class AccountTest {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().withdraw(-1));
         assertThat(exception.getMessage()).isEqualTo("amount must be positive");
     }
+
     @Test
     public void account_transferAmount() {
         Account fromAccount = Account.emptyAccount();
@@ -76,5 +77,16 @@ public class AccountTest {
         fromAccount.transfer(5,toAccount);
         assertThat(fromAccount.balance()).isEqualTo(5);
         assertThat(toAccount.balance()).isEqualTo(5);
+    }
+
+    @Test
+    public void account_transferAmountZeroAmount() {
+        Account fromAccount = Account.emptyAccount();
+        fromAccount.deposit(10);
+        Account toAccount = Account.emptyAccount();
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(0,toAccount));
+        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+        assertThat(fromAccount.balance()).isEqualTo(10);
+        assertThat(toAccount.balance()).isEqualTo(0);
     }
 }
