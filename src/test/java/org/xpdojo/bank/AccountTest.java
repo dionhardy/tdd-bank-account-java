@@ -57,6 +57,12 @@ public class AccountTest {
         assertThat(theAccount.balance()).isEqualTo(2);
     }
 
+    @Test()
+    public void account_makeZeroWithdraw() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().withdraw(0));
+        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+    }
+
     @Test
     public void account_transferAmount() {
         Account fromAccount = Account.emptyAccount();

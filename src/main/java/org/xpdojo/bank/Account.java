@@ -16,7 +16,8 @@ public class Account {
         balance+=amount;
     }
 
-    public void withdraw(int amount) {
+    public void withdraw(int amount) throws IllegalArgumentException{
+        if(amount<=0) throw new IllegalArgumentException("amount must be positive");
         balance-=amount;
     }
 
