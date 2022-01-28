@@ -18,4 +18,12 @@ public class AccountTest {
         theAccount.deposit(10);
         assertThat(theAccount.balance()).isEqualTo(10);
     }
+
+    @Test
+    public void account_addTwoDeposits() {
+        Account theAccount = Account.emptyAccount();
+        theAccount.deposit(10);
+        theAccount.deposit(20);
+        assertThat(theAccount.balance()).isEqualTo(30);
+    }
 }
