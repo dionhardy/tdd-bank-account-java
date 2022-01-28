@@ -7,9 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountTest {
 
-    @Test //test indicator
-	//@Disabled //but not yet
-    public void depositAnAmountToIncreaseTheBalance() {
-        assertThat("").isBlank(); //assert ex
+    @Test
+    public void account_emptyAccountBalanceIsZero() {
+        assertThat(Account.emptyAccount().balance()).isEqualTo(0);
     }
 }
