@@ -11,4 +11,11 @@ public class AccountTest {
     public void account_emptyAccountBalanceIsZero() {
         assertThat(Account.emptyAccount().balance()).isEqualTo(0);
     }
+
+    @Test
+    public void account_addSingleDeposit() {
+        Account theAccount = Account.emptyAccount();
+        theAccount.deposit(10);
+        assertThat(theAccount.balance()).isEqualTo(10);
+    }
 }
