@@ -89,4 +89,15 @@ public class AccountTest {
         assertThat(fromAccount.balance()).isEqualTo(10);
         assertThat(toAccount.balance()).isEqualTo(0);
     }
+
+    @Test
+    public void account_transferAmountNegativeAmount() {
+        Account fromAccount = Account.emptyAccount();
+        fromAccount.deposit(10);
+        Account toAccount = Account.emptyAccount();
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(-1,toAccount));
+        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+        assertThat(fromAccount.balance()).isEqualTo(10);
+        assertThat(toAccount.balance()).isEqualTo(0);
+    }
 }
