@@ -117,4 +117,31 @@ public class AccountTest {
         assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_EXCEEDS_FUNDS);
         assertThat(fromAccount.balance()).isEqualTo(10);
         assertThat(toAccount.balance()).isEqualTo(0);
-    }}
+    }
+
+    @Test
+    public void account_depositAmountAndDateTime() {
+        Account theAccount = Account.emptyAccount();
+        String dt = "2022-02-01";
+        String tm = "16:56";
+        theAccount.depositWithTime(10, dt, tm);
+        assertThat(theAccount.balance()).isEqualTo(10);
+        assertThat(theAccount.balanceDate()).isEqualTo(dt);
+        assertThat(theAccount.balanceTime()).isEqualTo(tm);
+    }
+
+    /*
+    @Test
+    public void account_balanceSlip_latestAccountLine() {
+        Account theAccount = Account.emptyAccount();
+        String dt="2022-02-01";
+        String tm="16:56";
+        theAccount.depositWithTime(10,dt,tm);
+        accountLine = theAccount.latestAccountLine();
+        assertThat(accountLine.balance).isEqualTo(10);
+        assertThat(accountLine.date).isEqualTo(dt);
+        assertThat(accountLine.time).isEqualTo(tm);
+    }
+
+     */
+}
