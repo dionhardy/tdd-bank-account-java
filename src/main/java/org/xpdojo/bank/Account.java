@@ -10,6 +10,7 @@ public class Account {
     private int balance = 0;
     private String balanceDate="";
     private String balanceTime="";
+    private AccountLine accountLine;
 
     public static Account emptyAccount() {
         Account account = new Account();
@@ -25,6 +26,7 @@ public class Account {
         }
         balanceDate=dt;
         balanceTime=tm;
+        accountLine=new AccountLine(balance,balanceDate,balanceTime);
     }
 
     public int balance() {
@@ -58,4 +60,7 @@ public class Account {
         toAccount.deposit(amount);
     }
 
+    public AccountLine latestAccountLine() {
+        return accountLine;
+    }
 }

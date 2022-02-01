@@ -149,18 +149,15 @@ public class AccountTest {
         assertThat(theAccount.balanceTime()).isEqualTo(tm);
     }
 
-    /*
     @Test
     public void account_balanceSlip_latestAccountLine() {
         Account theAccount = Account.emptyAccount();
         String dt="2022-02-01";
         String tm="16:56";
-        theAccount.depositWithTime(10,dt,tm);
-        accountLine = theAccount.latestAccountLine();
+        theAccount.depositWithDateTime(10,dt,tm);
+        AccountLine accountLine = theAccount.latestAccountLine();
         assertThat(accountLine.balance).isEqualTo(10);
         assertThat(accountLine.date).isEqualTo(dt);
         assertThat(accountLine.time).isEqualTo(tm);
     }
-
-     */
 }
