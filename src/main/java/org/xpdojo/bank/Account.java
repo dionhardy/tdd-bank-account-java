@@ -12,7 +12,19 @@ public class Account {
     private String balanceTime="";
 
     public static Account emptyAccount() {
-        return new Account();
+        Account account = new Account();
+        account.setBalanceDate(null,null);
+        return account;
+    }
+
+    private void setBalanceDate(String dt, String tm) {
+        if(dt==null || tm==null || dt.length()==0 || tm.length()==0){
+            Calendar cal=Calendar.getInstance();
+            dt=DateTimeHelper.getDate(cal);
+            tm=DateTimeHelper.getTime(cal);
+        }
+        balanceDate=dt;
+        balanceTime=tm;
     }
 
     public int balance() {
@@ -27,14 +39,8 @@ public class Account {
 
     public void depositWithTime(int amount, String dt, String tm) throws IllegalArgumentException {
         if(amount<=0) throw new IllegalArgumentException(AMOUNT_MUST_BE_POSITIVE);
-        if(dt==null || tm==null || dt.length()==0 || tm.length()==0){
-            Calendar cal=Calendar.getInstance();
-            dt=DateTimeHelper.getDate(cal);
-            tm=DateTimeHelper.getTime(cal);
-        }
         balance+=amount;
-        balanceDate=dt;
-        balanceTime=tm;
+        setBalanceDate(dt,tm);
     }
 
     public void withdraw(int amount) throws IllegalArgumentException{
