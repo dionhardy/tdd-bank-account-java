@@ -68,6 +68,14 @@ public class AccountTest {
         assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_MUST_BE_POSITIVE);
     }
 
+    @Test()
+    public void account_withdrawAboveFundsAmount() {
+        Account theAccount = Account.emptyAccount();
+        theAccount.deposit(10);
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> theAccount.withdraw(15));
+        assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_EXCEEDS_FUNDS);
+    }
+
     @Test
     public void account_transferSingleAmount() {
         Account fromAccount = Account.emptyAccount();
@@ -99,4 +107,14 @@ public class AccountTest {
         assertThat(fromAccount.balance()).isEqualTo(10);
         assertThat(toAccount.balance()).isEqualTo(0);
     }
-}
+
+    @Test
+    public void account_transferAmountAboveFunds() {
+        Account fromAccount = Account.emptyAccount();
+        fromAccount.deposit(10);
+        Account toAccount = Account.emptyAccount();
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transferTo(15,toAccount));
+        assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_EXCEEDS_FUNDS);
+        assertThat(fromAccount.balance()).isEqualTo(10);
+        assertThat(toAccount.balance()).isEqualTo(0);
+    }}
