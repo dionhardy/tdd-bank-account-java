@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AccountTest {
@@ -171,14 +171,14 @@ public class AccountTest {
         String tmDeposit="16:56";
         theAccount.depositWithDateTime(10,dtDeposit,tmDeposit);
 
-        String dtWithdraw = "2022-02-01";
+        String dtWithdraw = "2022-02-11";
         String tmWithdraw = "16:57";
         theAccount.withdrawWithDateTime(5,dtWithdraw,tmWithdraw);
 
         List<AccountLine> statement = theAccount.statement();
         assertThat(statement.size()).isEqualTo(3);
 
-        //0 is thes tarting  balance line
+        //0 is the starting  balance line
         AccountLine accountLine = statement.get(0);
         assertThat(accountLine.balance).isEqualTo(0);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_OPEN);
@@ -200,7 +200,7 @@ public class AccountTest {
 
     @Test
     public void account_statement_filteredType() {
-        Account theAccount = Account.emptyAccount();
+        Account theAccount = Account.emptyAccountWithDateTime("2022-01-01","12:00");
 
         String dtDeposit="2022-02-01";
         String tmDeposit="16:56";
@@ -210,7 +210,7 @@ public class AccountTest {
         String tmWithdraw = "16:57";
         theAccount.withdrawWithDateTime(5,dtWithdraw,tmWithdraw);
 
-        List<AccountLine> statement = theAccount.statement(Account.TYPE_DEPOSIT, null);
+        List<AccountLine> statement = theAccount.statement(Account.TYPE_DEPOSIT, null, null, null, null);
         assertThat(statement.size()).isEqualTo(1);
 
         //the deposit
@@ -220,7 +220,7 @@ public class AccountTest {
         assertThat(accountLine.time).isEqualTo(tmDeposit);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_DEPOSIT);
 
-        statement = theAccount.statement(Account.TYPE_WITHDRAW, null);
+        statement = theAccount.statement(Account.TYPE_WITHDRAW, null, null, null, null);
         assertThat(statement.size()).isEqualTo(1);
 
         //the withdraw
@@ -233,7 +233,7 @@ public class AccountTest {
 
     @Test
     public void account_statement_filteredDate() {
-        Account theAccount = Account.emptyAccount();
+        Account theAccount = Account.emptyAccountWithDateTime("2022-01-01","12:00");
 
         String dtDeposit="2022-02-01";
         String tmDeposit="16:56";
@@ -243,8 +243,9 @@ public class AccountTest {
         String tmWithdraw = "16:57";
         theAccount.withdrawWithDateTime(5,dtWithdraw,tmWithdraw);
 
-        List<AccountLine> statement = theAccount.statement(null,"2022-02-11");
+        List<AccountLine> statement = theAccount.statement(null,"2022-02-11", null, null, null);
         assertThat(statement.size()).isEqualTo(1);
+
         //the withdraw by date
         AccountLine accountLine = statement.get(0);
         assertThat(accountLine.balance).isEqualTo(5);
@@ -252,4 +253,31 @@ public class AccountTest {
         assertThat(accountLine.time).isEqualTo(tmWithdraw);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_WITHDRAW);
     }
-}
+
+
+    @Test
+    public void account_statement_filteredDateTime() {
+        Account theAccount = Account.emptyAccountWithDateTime("2022-01-01","12:00");
+
+        String dtDeposit="2022-02-01";
+        String tmDeposit="16:56";
+        theAccount.depositWithDateTime(10,dtDeposit,tmDeposit);
+
+        String dtWithdraw = "2022-02-11";
+        String tmWithdraw = "16:57";
+        theAccount.withdrawWithDateTime(5,dtWithdraw,tmWithdraw);
+
+        String dtWithdraw2 = "2022-02-11";
+        String tmWithdraw2 = "17:01";
+        theAccount.withdrawWithDateTime(2,dtWithdraw2,tmWithdraw2);
+
+        List<AccountLine> statement = theAccount.statement(null,"2022-02-11","16:00","2022-02-11","17:00");
+        assertThat(statement.size()).isEqualTo(1);
+
+        //the first withdraw by date and time
+        AccountLine accountLine = statement.get(0);
+        assertThat(accountLine.balance).isEqualTo(5);
+        assertThat(accountLine.date).isEqualTo(dtWithdraw);
+        assertThat(accountLine.time).isEqualTo(tmWithdraw);
+        assertThat(accountLine.type).isEqualTo(Account.TYPE_WITHDRAW);
+    }}

@@ -17,8 +17,12 @@ public class Account {
     private final ArrayList<AccountLine> accountLines=new ArrayList<>();
 
     public static Account emptyAccount() {
+        return emptyAccountWithDateTime(null,null);
+    }
+
+    public static Account emptyAccountWithDateTime(String dt,String tm) {
         Account account = new Account();
-        account.setBalanceDate(TYPE_OPEN,null,null); //also ensures at least one account line
+        account.setBalanceDate(TYPE_OPEN,dt,tm); //also ensures at least one account line
         return account;
     }
 
@@ -70,10 +74,19 @@ public class Account {
         return new ArrayList<>(accountLines);
     }
 
-    public List<AccountLine> statement(String typeFilter, String date) {
+    public List<AccountLine> statement(String typeFilter, String dateFrom, String timeFrom, String dateTo, String timeTo) {
         return accountLines.stream().filter(
                 x -> (typeFilter == null || typeFilter.length() == 0 || x.type.equals(typeFilter))
-                && (date==null || date.length()==0 || x.date.equals(date))
+                // from date onwards
+                && (dateFrom ==null || dateFrom.length()==0 || x.date.compareTo(dateFrom)>0 || (
+                    x.date.equals(dateFrom)
+                        && (timeFrom==null || timeFrom.length()==0 || x.time.compareTo(timeFrom)>=0)
+                ))
+                //upto to date
+                && (dateTo ==null || dateTo.length()==0 || x.date.compareTo(dateTo)<0 || (
+                x.date.equals(dateTo)
+                        && (timeTo==null || timeTo.length()==0 || x.time.compareTo(timeTo)<=0)
+            ))
         ).collect(Collectors.toList());
     }
 }
