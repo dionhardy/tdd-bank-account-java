@@ -70,9 +70,10 @@ public class Account {
         return new ArrayList<>(accountLines);
     }
 
-    public List<AccountLine> statement(String typeFilter) {
+    public List<AccountLine> statement(String typeFilter, String date) {
         return accountLines.stream().filter(
                 x -> (typeFilter == null || typeFilter.length() == 0 || x.type.equals(typeFilter))
+                && (date==null || date.length()==0 || x.date.equals(date))
         ).collect(Collectors.toList());
     }
 }
