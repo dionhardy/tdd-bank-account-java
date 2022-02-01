@@ -22,7 +22,7 @@ public class Account {
 
     public static Account emptyAccountWithDateTime(String dt,String tm) {
         Account account = new Account();
-        account.setBalanceDate(TYPE_OPEN,dt,tm); //also ensures at least one account line
+        account.setBalanceDate(TYPE_OPEN,0,dt,tm); //also ensures at least one account line
         return account;
     }
 
@@ -32,13 +32,13 @@ public class Account {
     public String balanceDate() { return latestAccountLine().date; }
     public String balanceTime() { return latestAccountLine().time; }
 
-    private void setBalanceDate(String type,String dt, String tm) {
+    private void setBalanceDate(String type,int amount,String dt, String tm) {
         if(dt==null || tm==null || dt.length()==0 || tm.length()==0){
             Calendar cal=Calendar.getInstance();
             dt=DateTimeHelper.getDate(cal);
             tm=DateTimeHelper.getTime(cal);
         }
-        accountLines.add(new AccountLine(type,balance,dt,tm));
+        accountLines.add(new AccountLine(type,balance,amount,dt,tm));
     }
 
     public void deposit(int amount) throws IllegalArgumentException {
@@ -48,7 +48,7 @@ public class Account {
     public void depositWithDateTime(int amount, String dt, String tm) throws IllegalArgumentException {
         if(amount<=0) throw new IllegalArgumentException(AMOUNT_MUST_BE_POSITIVE);
         balance+=amount;
-        setBalanceDate(TYPE_DEPOSIT,dt,tm);
+        setBalanceDate(TYPE_DEPOSIT,amount,dt,tm);
     }
     public void withdraw(int amount) throws IllegalArgumentException {
         withdrawWithDateTime(amount,null,null);
@@ -58,7 +58,7 @@ public class Account {
         if(amount<=0) throw new IllegalArgumentException(AMOUNT_MUST_BE_POSITIVE);
         if(amount>balance) throw new IllegalArgumentException(AMOUNT_EXCEEDS_FUNDS);
         balance-=amount;
-        setBalanceDate(TYPE_WITHDRAW,dt,tm);
+        setBalanceDate(TYPE_WITHDRAW,amount,dt,tm);
     }
 
     public void transferTo(int amount, Account toAccount) {

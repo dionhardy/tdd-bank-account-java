@@ -161,6 +161,7 @@ public class AccountTest {
         assertThat(accountLine.balance).isEqualTo(10);
         assertThat(accountLine.date).isEqualTo(dt);
         assertThat(accountLine.time).isEqualTo(tm);
+        assertThat(accountLine.amount).isEqualTo(10);
     }
 
     @Test
@@ -182,6 +183,7 @@ public class AccountTest {
         AccountLine accountLine = statement.get(0);
         assertThat(accountLine.balance).isEqualTo(0);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_OPEN);
+        assertThat(accountLine.amount).isEqualTo(0);
 
         //1 is the deposit
         accountLine=statement.get(1);
@@ -189,6 +191,7 @@ public class AccountTest {
         assertThat(accountLine.date).isEqualTo(dtDeposit);
         assertThat(accountLine.time).isEqualTo(tmDeposit);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_DEPOSIT);
+        assertThat(accountLine.amount).isEqualTo(10);
 
         //2 is the withdraw
         accountLine=statement.get(2);
@@ -196,6 +199,7 @@ public class AccountTest {
         assertThat(accountLine.date).isEqualTo(dtWithdraw);
         assertThat(accountLine.time).isEqualTo(tmWithdraw);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_WITHDRAW);
+        assertThat(accountLine.amount).isEqualTo(5);
     }
 
     @Test
@@ -219,6 +223,7 @@ public class AccountTest {
         assertThat(accountLine.date).isEqualTo(dtDeposit);
         assertThat(accountLine.time).isEqualTo(tmDeposit);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_DEPOSIT);
+        assertThat(accountLine.amount).isEqualTo(10);
 
         statement = theAccount.statement(Account.TYPE_WITHDRAW, null, null, null, null);
         assertThat(statement.size()).isEqualTo(1);
@@ -229,6 +234,7 @@ public class AccountTest {
         assertThat(accountLine.date).isEqualTo(dtWithdraw);
         assertThat(accountLine.time).isEqualTo(tmWithdraw);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_WITHDRAW);
+        assertThat(accountLine.amount).isEqualTo(5);
     }
 
     @Test
@@ -252,6 +258,7 @@ public class AccountTest {
         assertThat(accountLine.date).isEqualTo(dtWithdraw);
         assertThat(accountLine.time).isEqualTo(tmWithdraw);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_WITHDRAW);
+        assertThat(accountLine.amount).isEqualTo(5);
     }
 
 
@@ -277,6 +284,7 @@ public class AccountTest {
         //the first withdraw by date and time
         AccountLine accountLine = statement.get(0);
         assertThat(accountLine.balance).isEqualTo(5);
+        assertThat(accountLine.amount).isEqualTo(5);
         assertThat(accountLine.date).isEqualTo(dtWithdraw);
         assertThat(accountLine.time).isEqualTo(tmWithdraw);
         assertThat(accountLine.type).isEqualTo(Account.TYPE_WITHDRAW);
