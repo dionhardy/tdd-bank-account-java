@@ -1,6 +1,5 @@
 package org.xpdojo.bank;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -14,14 +13,14 @@ public class AccountTest {
     }
 
     @Test
-    public void account_addSingleDeposit() {
+    public void account_depositSingleAmount() {
         Account theAccount = Account.emptyAccount();
         theAccount.deposit(10);
         assertThat(theAccount.balance()).isEqualTo(10);
     }
 
     @Test
-    public void account_addTwoDeposits() {
+    public void account_depositMultipleAmounts() {
         Account theAccount = Account.emptyAccount();
         theAccount.deposit(10);
         theAccount.deposit(20);
@@ -29,13 +28,13 @@ public class AccountTest {
     }
 
     @Test()
-    public void account_addZeroDeposit() {
+    public void account_depositZeroAmount() {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().deposit(0));
         assertThat(exception.getMessage()).isEqualTo("amount must be positive");
     }
 
     @Test()
-    public void account_addNegativeDeposit() {
+    public void account_depositNegativeAmount() {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().deposit(-1));
         assertThat(exception.getMessage()).isEqualTo("amount must be positive");
     }
@@ -49,7 +48,7 @@ public class AccountTest {
     }
 
     @Test
-    public void account_withdrawMultipleAmount() {
+    public void account_withdrawMultipleAmounts() {
         Account theAccount = Account.emptyAccount();
         theAccount.deposit(10);
         theAccount.withdraw(5);
@@ -58,45 +57,45 @@ public class AccountTest {
     }
 
     @Test()
-    public void account_makeZeroWithdraw() {
+    public void account_withdrawZeroAmount() {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().withdraw(0));
-        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+        assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_MUST_BE_POSITIVE);
     }
 
     @Test()
-    public void account_makeNegativeWithdraw() {
+    public void account_withdrawNegativeAmount() {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Account.emptyAccount().withdraw(-1));
-        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+        assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_MUST_BE_POSITIVE);
     }
 
     @Test
-    public void account_transferAmount() {
+    public void account_transferSingleAmount() {
         Account fromAccount = Account.emptyAccount();
         fromAccount.deposit(10);
         Account toAccount = Account.emptyAccount();
-        fromAccount.transfer(5,toAccount);
+        fromAccount.transferTo(5,toAccount);
         assertThat(fromAccount.balance()).isEqualTo(5);
         assertThat(toAccount.balance()).isEqualTo(5);
     }
 
     @Test
-    public void account_transferAmountZeroAmount() {
+    public void account_transferZeroAmount() {
         Account fromAccount = Account.emptyAccount();
         fromAccount.deposit(10);
         Account toAccount = Account.emptyAccount();
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(0,toAccount));
-        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transferTo(0,toAccount));
+        assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_MUST_BE_POSITIVE);
         assertThat(fromAccount.balance()).isEqualTo(10);
         assertThat(toAccount.balance()).isEqualTo(0);
     }
 
     @Test
-    public void account_transferAmountNegativeAmount() {
+    public void account_transferNegativeAmount() {
         Account fromAccount = Account.emptyAccount();
         fromAccount.deposit(10);
         Account toAccount = Account.emptyAccount();
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(-1,toAccount));
-        assertThat(exception.getMessage()).isEqualTo("amount must be positive");
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> fromAccount.transferTo(-1,toAccount));
+        assertThat(exception.getMessage()).isEqualTo(Account.AMOUNT_MUST_BE_POSITIVE);
         assertThat(fromAccount.balance()).isEqualTo(10);
         assertThat(toAccount.balance()).isEqualTo(0);
     }
