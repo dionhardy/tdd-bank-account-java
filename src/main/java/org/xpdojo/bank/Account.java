@@ -3,6 +3,7 @@ package org.xpdojo.bank;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Account {
     public static final String AMOUNT_MUST_BE_POSITIVE = "amount must be positive";
@@ -17,6 +18,12 @@ public class Account {
         return account;
     }
 
+    public int balance() {
+        return balance;
+    }
+    public String balanceDate() { return latestAccountLine().date; }
+    public String balanceTime() { return latestAccountLine().time; }
+
     private void setBalanceDate(String dt, String tm) {
         if(dt==null || tm==null || dt.length()==0 || tm.length()==0){
             Calendar cal=Calendar.getInstance();
@@ -25,12 +32,6 @@ public class Account {
         }
         accountLines.add(new AccountLine(balance,dt,tm));
     }
-
-    public int balance() {
-        return balance;
-    }
-    public String balanceDate() { return latestAccountLine().date; }
-    public String balanceTime() { return latestAccountLine().time; }
 
     public void deposit(int amount) throws IllegalArgumentException {
         depositWithDateTime(amount,null,null);
@@ -59,5 +60,9 @@ public class Account {
 
     public AccountLine latestAccountLine() {
         return accountLines.get(accountLines.size()-1);
+    }
+
+    public List<AccountLine> statement() {
+        return new ArrayList<>(accountLines);
     }
 }

@@ -2,6 +2,8 @@ package org.xpdojo.bank;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -159,5 +161,37 @@ public class AccountTest {
         assertThat(accountLine.balance).isEqualTo(10);
         assertThat(accountLine.date).isEqualTo(dt);
         assertThat(accountLine.time).isEqualTo(tm);
+    }
+
+    @Test
+    public void account_statement() {
+        Account theAccount = Account.emptyAccount();
+
+        String dtDeposit="2022-02-01";
+        String tmDeposit="16:56";
+        theAccount.depositWithDateTime(10,dtDeposit,tmDeposit);
+
+        String dtWithdraw = "2022-02-01";
+        String tmWithdraw = "16:57";
+        theAccount.withdrawWithDateTime(5,dtWithdraw,tmWithdraw);
+
+        List<AccountLine> statement = theAccount.statement();
+        assertThat(statement.size()).isEqualTo(3);
+
+        //0 is thes tarting  balance line
+        AccountLine accountLine = statement.get(0);
+        assertThat(accountLine.balance).isEqualTo(0);
+
+        //1 is the deposit
+        accountLine=statement.get(1);
+        assertThat(accountLine.balance).isEqualTo(10);
+        assertThat(accountLine.date).isEqualTo(dtDeposit);
+        assertThat(accountLine.time).isEqualTo(tmDeposit);
+
+        //2 is the withdraw
+        accountLine=statement.get(2);
+        assertThat(accountLine.balance).isEqualTo(5);
+        assertThat(accountLine.date).isEqualTo(dtWithdraw);
+        assertThat(accountLine.time).isEqualTo(tmWithdraw);
     }
 }

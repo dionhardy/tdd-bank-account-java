@@ -1,9 +1,9 @@
 package org.xpdojo.bank;
 
 public class AccountLine {
-    public int balance;
-    public String date;
-    public String time;
+    public final int balance;
+    public final String date;
+    public final String time;
 
     public AccountLine(int balance, String balanceDate, String balanceTime) {
         this.balance=balance;
