@@ -124,8 +124,20 @@ public class AccountTest {
         Account theAccount = Account.emptyAccount();
         String dt = "2022-02-01";
         String tm = "16:56";
-        theAccount.depositWithTime(10, dt, tm);
+        theAccount.depositWithDateTime(10, dt, tm);
         assertThat(theAccount.balance()).isEqualTo(10);
+        assertThat(theAccount.balanceDate()).isEqualTo(dt);
+        assertThat(theAccount.balanceTime()).isEqualTo(tm);
+    }
+
+    @Test
+    public void account_withdrawAmountAndDateTime() {
+        Account theAccount = Account.emptyAccount();
+        theAccount.deposit(10);
+        String dt = "2022-02-01";
+        String tm = "16:56";
+        theAccount.withdrawWithDateTime(5, dt, tm);
+        assertThat(theAccount.balance()).isEqualTo(5);
         assertThat(theAccount.balanceDate()).isEqualTo(dt);
         assertThat(theAccount.balanceTime()).isEqualTo(tm);
     }

@@ -34,19 +34,23 @@ public class Account {
     public String balanceTime() { return balanceTime; }
 
     public void deposit(int amount) throws IllegalArgumentException {
-        depositWithTime(amount,null,null);
+        depositWithDateTime(amount,null,null);
     }
 
-    public void depositWithTime(int amount, String dt, String tm) throws IllegalArgumentException {
+    public void depositWithDateTime(int amount, String dt, String tm) throws IllegalArgumentException {
         if(amount<=0) throw new IllegalArgumentException(AMOUNT_MUST_BE_POSITIVE);
         balance+=amount;
         setBalanceDate(dt,tm);
     }
+    public void withdraw(int amount) throws IllegalArgumentException {
+        withdrawWithDateTime(amount,null,null);
+    }
 
-    public void withdraw(int amount) throws IllegalArgumentException{
+    public void withdrawWithDateTime(int amount, String dt, String tm) throws IllegalArgumentException{
         if(amount<=0) throw new IllegalArgumentException(AMOUNT_MUST_BE_POSITIVE);
         if(amount>balance) throw new IllegalArgumentException(AMOUNT_EXCEEDS_FUNDS);
         balance-=amount;
+        setBalanceDate(dt,tm);
     }
 
     public void transferTo(int amount, Account toAccount) {
