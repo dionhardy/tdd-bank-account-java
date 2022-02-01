@@ -13,6 +13,13 @@ public class AccountTest {
     }
 
     @Test
+    public void account_emptyAccountBalanceHasDateTime() {
+        Account theAccount = Account.emptyAccount();
+        assertThat(theAccount.balanceDate()).isNotEmpty();
+        assertThat(theAccount.balanceTime()).isNotEmpty();
+    }
+
+    @Test
     public void account_depositSingleAmount() {
         Account theAccount = Account.emptyAccount();
         theAccount.deposit(10);
