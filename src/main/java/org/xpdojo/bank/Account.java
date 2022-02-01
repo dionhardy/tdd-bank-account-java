@@ -8,8 +8,6 @@ public class Account {
     public static final String AMOUNT_EXCEEDS_FUNDS = "not enough funds to withdraw amount";
 
     private int balance = 0;
-    private String balanceDate="";
-    private String balanceTime="";
     private AccountLine accountLine;
 
     public static Account emptyAccount() {
@@ -24,16 +22,14 @@ public class Account {
             dt=DateTimeHelper.getDate(cal);
             tm=DateTimeHelper.getTime(cal);
         }
-        balanceDate=dt;
-        balanceTime=tm;
-        accountLine=new AccountLine(balance,balanceDate,balanceTime);
+        accountLine=new AccountLine(balance,dt,tm);
     }
 
     public int balance() {
         return balance;
     }
-    public String balanceDate() { return balanceDate; }
-    public String balanceTime() { return balanceTime; }
+    public String balanceDate() { return accountLine.date; }
+    public String balanceTime() { return accountLine.time; }
 
     public void deposit(int amount) throws IllegalArgumentException {
         depositWithDateTime(amount,null,null);
