@@ -1,6 +1,7 @@
 package org.xpdojo.bank;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Account {
@@ -8,11 +9,11 @@ public class Account {
     public static final String AMOUNT_EXCEEDS_FUNDS = "not enough funds to withdraw amount";
 
     private int balance = 0;
-    private AccountLine accountLine;
+    private final ArrayList<AccountLine> accountLines=new ArrayList<>();
 
     public static Account emptyAccount() {
         Account account = new Account();
-        account.setBalanceDate(null,null);
+        account.setBalanceDate(null,null); //also ensures at least one account line
         return account;
     }
 
@@ -22,14 +23,14 @@ public class Account {
             dt=DateTimeHelper.getDate(cal);
             tm=DateTimeHelper.getTime(cal);
         }
-        accountLine=new AccountLine(balance,dt,tm);
+        accountLines.add(new AccountLine(balance,dt,tm));
     }
 
     public int balance() {
         return balance;
     }
-    public String balanceDate() { return accountLine.date; }
-    public String balanceTime() { return accountLine.time; }
+    public String balanceDate() { return latestAccountLine().date; }
+    public String balanceTime() { return latestAccountLine().time; }
 
     public void deposit(int amount) throws IllegalArgumentException {
         depositWithDateTime(amount,null,null);
@@ -57,6 +58,6 @@ public class Account {
     }
 
     public AccountLine latestAccountLine() {
-        return accountLine;
+        return accountLines.get(accountLines.size()-1);
     }
 }
